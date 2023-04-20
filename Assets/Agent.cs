@@ -6,9 +6,9 @@ using UnityEngine.AI; //required
 public class Agent : MonoBehaviour
 {
     private NavMeshAgent navMeshAgent;
-
+    //target
     public GameObject desty;
-
+    //get nav mesh
     private void Awake(){
         navMeshAgent = GetComponent<NavMeshAgent>();
     }
@@ -17,13 +17,19 @@ public class Agent : MonoBehaviour
     {
         
     }
-
+    //optional move target destination via mouse click
     void Update()
     {
-        
+       if(Input.GetMouseButtonDown(0)){
+            var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            if(Physics.Raycast(ray, out hit)){
+                desty.transform.position = hit.point;
+            }
+        } 
     }
 
-
+    //set one time to move agent
     public void triggerDes(){
         navMeshAgent.destination = desty.transform.position;
     }
